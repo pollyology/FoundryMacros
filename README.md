@@ -4,7 +4,7 @@ This repository contains a collection of **Foundry VTT macros** for common gamep
 
 Each macro is written in plain JavaScript and can be pasted directly into Foundry’s **Macro Editor**.
 
-Foundry Virtual Tabletop API Documentation: https://foundryvtt.com/api/
+Foundry's API Documentation: https://foundryvtt.com/api/
 
 ---
 
