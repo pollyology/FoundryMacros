@@ -5,7 +5,7 @@ Each macro is written in plain JavaScript and can be pasted directly into Foundr
 
 ---
 
-## 📥 How to Import a Macro into Foundry
+## How to Import a Macro into Foundry
 
 1. Open your **Foundry VTT world**.
 2. In the **bottom hotbar**, click an empty slot and choose **"Create Macro"**.
