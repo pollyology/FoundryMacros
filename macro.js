@@ -1,7 +1,9 @@
 // Description - Ability Scores Macro
+// =================================================================================
 // * Rolls an ability score 6 times: STR, DEX, CON, CHA, WIS, INT
 // * Uses roll formula '4d6kh3' or '4d6dl1' (keep highest 3 or drop lowest 1)
 // * Displays the results to the chat.
+// =================================================================================
 
 let formula = "4d6kh3"; 							// formula for rolling 4 dice and keeping the highest 3 rolls
 let player = game.user;								// access the current player
@@ -38,12 +40,15 @@ ChatMessage.create(
 	speaker: ChatMessage.getSpeaker(),
 });
 
+
 // Description - Gracie's Infestation Macro (Fully Automated)
+// =================================================================================
 // * Player selects target token then select this macro to automate the cantrip cast.
 // * Handles the save, fail, and success.
 // * Macro rolls the target's CON save against player's Spell DC
 // * On success, roll 1d6 poison damage + roll 1d4 for direction (N,E,S,W)
 // * Display the results in chat.
+// =================================================================================
 
 // The player's info
 let actor = game.user.character;
@@ -88,7 +93,7 @@ if (saveRoll.total < spellDC)	// fails CON save
 	);
 
 	// Apply the damage to the token automatically
-	await target.applyDamage(damage.total, "poison");
+	// await target.applyDamage(damage.total, "poison");
 
 	// Direction Roll
 	let direction = new Roll("1d4"); // direction roll: 1 = North, 2 = South, 3 = West, 4 = East
@@ -101,18 +106,15 @@ if (saveRoll.total < spellDC)	// fails CON save
 	}	
 	);
 
-	let compass = null;
-	switch (direction.total)
+	const directions =	// maps the rolls to direction
 	{
-		case 1: compass = "North";
-				break;
-		case 2: compass = "South";
-				break;
-		case 3: compass = "West";
-				break;
-		case 4: compass = "East";
-				break;
-	}
+		1: "North",
+		2: "South",
+		3: "East",
+		4: "West"
+	};
+
+	let compass = directions[direction.total];
 
 	// Spell Summary
 	ChatMessage.create(
@@ -128,57 +130,7 @@ else
 {
 	ChatMessage.create(
 	{
-		content: `... but the spell fails!`
+		content: `...but the spell fails!`
 	}
 	);
 }
-
-
-// Description - Gracie's Infestation Macro (Quick n' Dirty)
-// * Requires DM to select target and roll CON save themselves.
-// * To be used after player declares target and DM rolls a failing CON save
-// * Basically, just rolls the damage and direction for player after a success.
-
-// The player's info
-let actor = game.user.character;
-let caster = actor.name;
-let spellName = "Infestation";
-
-// Damage Roll
-let damage = new Roll("1d6");	// 1d6 poison damage
-await damage.evaluate({async: true});
-
-damage.toMessage(
-{
-	speaker: ChatMessage.getSpeaker({ actor: actor }),
-}	
-);
-
-// Direction Roll
-let direction = new Roll("1d4"); // direction roll: 1 = North, 2 = South, 3 = West, 4 = East
-await direction.evaluate({async: true});
-
-direction.toMessage(
-{
-	speaker: ChatMessage.getSpeaker({ actor: actor }),
-}	
-);
-
-const directions =	// maps the rolls to direction
-{
-	1: "North",
-	2: "South",
-	3: "East",
-	4: "West"
-};
-
-let compass = directions[direction.total];
-
-// Spell Summary
-ChatMessage.create(
-{
-	content: `${caster} casts ${spellName}!<br>
-	${caster} deals ${damage.total} poison damage.<br>
-	Target tries to move ${compass}!`
-}
-);
