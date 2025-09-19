@@ -1,7 +1,10 @@
 # Foundry VTT Macros
 
 This repository contains a collection of **Foundry VTT macros** for common gameplay tasks such as rolling ability scores and handling mechanics.  
+
 Each macro is written in plain JavaScript and can be pasted directly into Foundry’s **Macro Editor**.
+
+Foundry Virtual Tabletop API Documentation: https://foundryvtt.com/api/
 
 ---
 
